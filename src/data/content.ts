@@ -71,7 +71,7 @@ export const site = {
   /** A video in /public, e.g. "/reel.mp4". Leave empty to show the generated loop. */
   reel: "",
   socials: [
-    { label: "GitHub", href: "https://github.com/t-1aaf" },,,
+    { label: "GitHub", href: "https://github.com/t-1aaf" },
     { label: "Instagram", href: "https://www.instagram.com/_t1aaf/?__pwa=1" },
   ],
 };
