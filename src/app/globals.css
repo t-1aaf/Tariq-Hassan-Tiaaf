@@ -2359,12 +2359,144 @@ html.has-cursor * {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* ------- sign out ------- */
+.dash__signout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(239, 238, 246, 0.6);
+  border: 1px solid rgba(183, 177, 255, 0.28);
+  border-radius: 999px;
+  padding: 8px 16px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.dash__signout:hover:not(:disabled) {
+  color: var(--paper);
+  border-color: var(--paper);
+}
+.dash__signout:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .dash__empty {
   padding: 22px;
   text-align: center;
   color: rgba(239, 238, 246, 0.5);
   border: 1px dashed rgba(183, 177, 255, 0.3);
   border-radius: 16px;
+}
+
+/* ==========================================================================
+   Login (/login) — the gate in front of the dashboard.
+   ========================================================================== */
+.login {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--paper);
+  padding: var(--pad);
+}
+.login__card {
+  width: min(400px, 100%);
+  display: grid;
+  gap: 8px;
+  padding: clamp(26px, 4vw, 40px);
+  background: var(--ink-2);
+  border: 1px solid rgba(183, 177, 255, 0.16);
+  border-radius: var(--r-l);
+}
+.login__kicker {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--lilac);
+}
+.login__title {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 750;
+  font-stretch: 95%;
+  line-height: 1;
+  margin: 8px 0 6px;
+  letter-spacing: -0.02em;
+}
+.login__sub {
+  color: rgba(239, 238, 246, 0.6);
+  margin-bottom: 14px;
+}
+.login__form {
+  display: grid;
+  gap: 14px;
+}
+.login__field {
+  display: grid;
+  gap: 6px;
+}
+.login__field span {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(239, 238, 246, 0.55);
+}
+.login__field input {
+  width: 100%;
+  font: inherit;
+  color: var(--paper);
+  background: rgba(21, 18, 63, 0.55);
+  border: 1px solid rgba(183, 177, 255, 0.22);
+  border-radius: 10px;
+  padding: 11px 14px;
+  outline: none;
+}
+.login__field input:focus-visible {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(124, 115, 244, 0.25);
+}
+.login__field input::placeholder {
+  color: rgba(239, 238, 246, 0.3);
+}
+.login__error {
+  font-size: 0.85rem;
+  color: var(--flame);
+}
+.login__submit {
+  justify-self: start;
+  font-weight: 650;
+  color: var(--ink);
+  background: var(--mint);
+  border-radius: 999px;
+  padding: 11px 26px;
+  transition: transform 0.25s var(--ease), opacity 0.2s;
+}
+.login__submit:hover:not(:disabled) {
+  transform: scale(1.04);
+}
+.login__submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.login__back {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: rgba(239, 238, 246, 0.55);
+}
+.login__back:hover {
+  color: var(--paper);
+}
+@media (max-width: 480px) {
+  .login {
+    place-items: start center;
+    padding-top: 18svh;
+  }
 }
 
 /* ---------- reduced motion ---------- */

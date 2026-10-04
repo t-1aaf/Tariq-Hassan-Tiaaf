@@ -13,8 +13,19 @@ Node 18.18 or newer.
 
 ## The works dashboard
 
-Open **`/dashboard`** while `npm run dev` is running. There you can add, edit and delete
-projects without touching any code:
+The dashboard is behind a password login (no database). Open **`/dashboard`** while `npm run dev`
+is running and you land on **`/login`** first:
+
+- **Password** — the `ADMIN_PASSWORD` environment variable, defaulting to **`rowanvale`** in dev.
+  Change it in `.env.local` (never commit that file).
+- **Sessions** — signing in sets an HttpOnly cookie signed with `ADMIN_SECRET` (any long random
+  string; it gets a dev fallback but must be set in production). The signature *is* the session
+  record: no DB, and rotating `ADMIN_SECRET` signs everyone out at once.
+- **Sign out** — the button in the dashboard header clears the cookie.
+- **API** — `POST/PUT/DELETE /api/projects*` reject writes (401) without a valid session; reads
+  stay public, so the site itself is untouched.
+
+Once signed in you can add, edit and delete projects without touching any code:
 
 - **Add a work** — title, year, blurb, role, link, cover style and colours, optional image / video.
   The form has a live preview of the card as it appears in the gallery.
@@ -25,6 +36,9 @@ Projects live in **`src/data/projects.json`** (newest first), written by the das
 `/api/projects` and read at request time by `src/lib/projects.ts`, so saves are live on the next
 page load — no rebuild. The file is plain JSON, so you can still edit it by hand or commit it.
 The dashboard is unlisted (`noindex`) and has none of the portfolio chrome; it is a plain admin page.
+
+Auth lives in `src/lib/session.ts` (edge-safe token helpers used by `src/middleware.ts` and the
+login route) and `src/lib/auth.ts` (the server-only `isAuthenticated()` used by the API routes).
 
 > Note: writes go to the filesystem, which is exactly what you want for `npm run dev` or a
 > self-hosted `npm start`. On read-only hosts (some serverless platforms) commit the JSON instead.

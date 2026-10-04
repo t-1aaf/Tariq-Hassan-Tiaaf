@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readProjects, sanitizeProject, writeProjects } from "@/lib/projects";
+import { isAuthenticated } from "@/lib/auth";
 
 /**
  * PUT    /api/projects/[slug]  -> update a project
@@ -9,6 +10,10 @@ import { readProjects, sanitizeProject, writeProjects } from "@/lib/projects";
 type Ctx = { params: Promise<{ slug: string }> };
 
 export async function PUT(request: Request, { params }: Ctx) {
+  if (!(await isAuthenticated())) {
+    return NextResponse.json({ error: "Sign in at /login to edit works." }, { status: 401 });
+  }
+
   const { slug } = await params;
   let body: Record<string, unknown>;
   try {
@@ -31,6 +36,10 @@ export async function PUT(request: Request, { params }: Ctx) {
 }
 
 export async function DELETE(_request: Request, { params }: Ctx) {
+  if (!(await isAuthenticated())) {
+    return NextResponse.json({ error: "Sign in at /login to edit works." }, { status: 401 });
+  }
+
   const { slug } = await params;
   const current = await readProjects();
   const next = current.filter((p) => p.slug !== slug);

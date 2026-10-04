@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readProjects, sanitizeProject, writeProjects } from "@/lib/projects";
+import { isAuthenticated } from "@/lib/auth";
 
 /**
  * GET  /api/projects  -> the full list (newest first)
@@ -12,6 +13,10 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!(await isAuthenticated())) {
+    return NextResponse.json({ error: "Sign in at /login to edit works." }, { status: 401 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();

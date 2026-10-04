@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type { CoverKind, Project } from "@/data/content";
 import Cover from "@/components/ui/Cover";
 
@@ -109,6 +110,7 @@ function Preview({ f }: { f: FormState }) {
 }
 
 export default function ProjectsDashboard({ initialProjects }: { initialProjects: Project[] }) {
+  const router = useRouter();
   const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [form, setForm] = useState<FormState>(EMPTY);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
@@ -180,6 +182,17 @@ export default function ProjectsDashboard({ initialProjects }: { initialProjects
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  async function signOut() {
+    if (busy) return;
+    setBusy(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      router.replace("/login");
+    } catch {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="dash">
       <header className="dash__top">
@@ -192,6 +205,9 @@ export default function ProjectsDashboard({ initialProjects }: { initialProjects
             View site →
           </Link>
         </p>
+        <button type="button" className="dash__signout" onClick={signOut} disabled={busy}>
+          Sign out
+        </button>
       </header>
 
       <div className="dash__grid">
